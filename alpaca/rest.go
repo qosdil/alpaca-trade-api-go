@@ -79,14 +79,14 @@ func NewClient(opts ClientOpts) *Client {
 var DefaultClient = NewClient(ClientOpts{})
 
 const (
-	apiVersion = "v2"
+	apiVersion = "v1"
 )
 
 func defaultDo(c *Client, req *http.Request) (*http.Response, error) {
 	req.Header.Set("User-Agent", Version())
 
 	if c.opts.OAuth != "" {
-		req.Header.Set("Authorization", "Bearer "+c.opts.OAuth)
+		req.Header.Set("Authorization", "Basic "+c.opts.OAuth)
 	} else {
 		req.Header.Set("APCA-API-KEY-ID", c.opts.APIKey)
 		req.Header.Set("APCA-API-SECRET-KEY", c.opts.APISecret)
