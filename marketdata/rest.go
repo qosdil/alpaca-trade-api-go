@@ -97,7 +97,7 @@ func defaultDo(c *Client, req *http.Request) (*http.Response, error) {
 	}
 
 	if c.opts.OAuth != "" {
-		req.Header.Set("Authorization", "Bearer "+c.opts.OAuth)
+		req.Header.Set("Authorization", "Basic "+c.opts.OAuth)
 	} else {
 		req.Header.Set("APCA-API-KEY-ID", c.opts.APIKey)
 		req.Header.Set("APCA-API-SECRET-KEY", c.opts.APISecret)
