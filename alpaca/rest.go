@@ -534,6 +534,8 @@ type PlaceOrderRequest struct {
 	TrailPrice     *decimal.Decimal `json:"trail_price"`
 	TrailPercent   *decimal.Decimal `json:"trail_percent"`
 	PositionIntent PositionIntent   `json:"position_intent"`
+	UserID         string           `json:"user_id"`
+	Subtag         string           `json:"subtag"`
 }
 
 type TakeProfit struct {
@@ -548,6 +550,25 @@ type StopLoss struct {
 // PlaceOrder submits an order request to buy or sell an asset.
 func (c *Client) PlaceOrder(req PlaceOrderRequest) (*Order, error) {
 	u, err := url.Parse(fmt.Sprintf("%s/%s/orders", c.opts.BaseURL, apiVersion))
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.post(u, req)
+	if err != nil {
+		return nil, err
+	}
+
+	var order Order
+	if err = unmarshal(resp, &order); err != nil {
+		return nil, err
+	}
+	return &order, nil
+}
+
+// PlaceOrder2 is a temporary solution to replace PlaceOrder that has bugs.
+func (c *Client) PlaceOrder2(req PlaceOrderRequest) (*Order, error) {
+	u, err := url.Parse(fmt.Sprintf("%s/%s/trading/accounts/%s/orders", c.opts.BaseURL, apiVersion, req.UserID))
 	if err != nil {
 		return nil, err
 	}
