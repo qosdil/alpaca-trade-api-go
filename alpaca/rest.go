@@ -604,6 +604,25 @@ func (c *Client) GetOrder(orderID string) (*Order, error) {
 	return &order, nil
 }
 
+// GetOrder2 is a temporary solution to replace GetOrder that has bugs.
+func (c *Client) GetOrder2(userID string, orderID string) (*Order, error) {
+	u, err := url.Parse(fmt.Sprintf("%s/%s/trading/accounts/%s/orders/%s", c.opts.BaseURL, apiVersion, userID, orderID))
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.get(u)
+	if err != nil {
+		return nil, err
+	}
+
+	var order Order
+	if err = unmarshal(resp, &order); err != nil {
+		return nil, err
+	}
+	return &order, nil
+}
+
 // GetOrderByClientOrderID submits a request to get an order by the client order ID.
 func (c *Client) GetOrderByClientOrderID(clientOrderID string) (*Order, error) {
 	u, err := url.Parse(fmt.Sprintf("%s/%s/orders:by_client_order_id", c.opts.BaseURL, apiVersion))
