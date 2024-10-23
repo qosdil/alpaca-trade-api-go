@@ -536,6 +536,8 @@ type PlaceOrderRequest struct {
 	PositionIntent PositionIntent   `json:"position_intent"`
 	UserID         string           `json:"user_id"`
 	Subtag         string           `json:"subtag"`
+	Commission     string           `json:"commission"`
+	CommissionType string           `json:"commission_type"`
 }
 
 type TakeProfit struct {
