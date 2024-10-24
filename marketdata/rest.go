@@ -1279,7 +1279,7 @@ type GetCorporateActionsRequest struct {
 
 // GetCorporateActions returns the corporate actions based on the given req.
 func (c *Client) GetCorporateActions(req GetCorporateActionsRequest) (CorporateActions, error) {
-	u, err := url.Parse(fmt.Sprintf("%s/v1beta1/corporate-actions", c.opts.BaseURL))
+	u, err := url.Parse(fmt.Sprintf("%s/v1/corporate-actions", c.opts.BaseURL))
 	if err != nil {
 		return CorporateActions{}, err
 	}
